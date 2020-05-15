@@ -6,6 +6,7 @@ const todoList = document.querySelector('.todo-list')
 
 // event listeners
 todoButton.addEventListener('click', addTodo)
+todoList.addEventListener('click', deleteCheck)
 
 // functions
 
@@ -17,7 +18,7 @@ function addTodo(event){
     todoDiv.classList.add('todo')
     // create li
     const newTodo = document.createElement('li')
-    newTodo.innerText = 'hey'
+    newTodo.innerText = todoInput.value
     newTodo.classList.add('todo-item')
     todoDiv.appendChild(newTodo)
     // check mark button
@@ -28,8 +29,30 @@ function addTodo(event){
     // check trash button
     const trashButton = document.createElement('button')
     trashButton.innerHTML = '<i class="fas fa-trash"></i>'
-    trashButton.classList.add('complete-btn')
+    trashButton.classList.add('trash-btn')
     todoDiv.appendChild(trashButton)
     // append to list
     todoList.appendChild(todoDiv)
+    // clear to do input value
+
+    todoInput.value = null   
+}
+
+function deleteCheck(e){
+   const item = e.target
+    //    delete todo
+    if(item.classList[0] === 'trash-btn'){
+        const todo = item.parentElement
+        // animation
+        todo.classList.add('fall')
+        todo.addEventListener('transitionend', () =>{
+            todo.remove()
+        })   // this is so as to remove only after applying the rotation transiton
+        // todo.remove()
+    }
+    // check mark
+    if(item.classList[0] === 'complete-btn'){
+        const todo = item.parentElement
+        todo.classList.toggle('completed')
+    }
 }
